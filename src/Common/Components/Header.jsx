@@ -3,13 +3,13 @@ import React from 'react'
 function Header() {
   return (
     <>
-     <nav className="bg-green-600 text-white shadow-md py-3.5">
+     <nav className="bg-green-800 text-white shadow-md py-3.5">
   <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
     <div className="flex items-center space-x-2">
       <img src="https://copilot.microsoft.com/th/id/BCO.5c5c3a82-9d6c-48ba-9608-db8977b0e0bc.png" alt="FreshBasket" className="h-8 w-8 rounded-2xl" />
       <span className="text-xl font-bold">FreshBasket</span>
     </div>
-    <ul className="hidden md:flex space-x-6 font-medium">
+    <ul className="hidden md:flex  me-1git5 space-x-6 font-medium">
       <li className="hover:text-yellow-300 cursor-pointer">Home</li>
       <li className="hover:text-yellow-300 cursor-pointer">Shop</li>
       <li className="hover:text-yellow-300 cursor-pointer">Offers</li>
