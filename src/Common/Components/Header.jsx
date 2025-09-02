@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import { IoPerson } from "react-icons/io5";
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -38,6 +38,9 @@ function Header() {
           <button className="bg-yellow-300 text-green-900 px-3 py-1 rounded hover:bg-yellow-400 font-semibold">
             Cart (2)
           </button>
+          <Link to={'/auth'}><button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex">
+            Login <IoPerson className='mt-1 gap-1.5'/>
+          </button></Link>
         </div>
       </div>
 
@@ -49,9 +52,9 @@ function Header() {
           className="w-full max-w-md px-4 py-2 bg-white text-green-700 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500"
         />
         <button 
-          className="bg-yellow-300 text-green-900 px-4 py-2 rounded-r-md hover:bg-yellow-400 transition duration-500 ease-in-out"
+          className="bg-yellow-300 text-green-900 px-4 py-2 rounded-r-md hover:bg-yellow-400 transition duration-500 ease-in-out "
         >
-          Search
+          Search 
         </button>
       </div>
 
