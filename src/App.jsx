@@ -24,7 +24,7 @@ function App() {
         <Route path='/' element={isLoading ? <Preloader /> : <LandingPage />} />
         <Route path='*' element={<PagenotFound />} />
         <Route path='/login' element={<Auth />} />
-        <Route path='/register' element={<Auth />} />
+        <Route path='/register' element={<Auth register />} />
 
 
 

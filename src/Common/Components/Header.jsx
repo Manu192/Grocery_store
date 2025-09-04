@@ -38,7 +38,7 @@ function Header() {
           <button className="bg-yellow-300 text-green-900 px-3 py-1 rounded hover:bg-yellow-400 font-semibold">
             Cart (2)
           </button>
-          <Link to={'/auth'}><button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex">
+          <Link to={'/login'}><button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex">
             Login <IoPerson className='mt-1 gap-1.5'/>
           </button></Link>
         </div>
