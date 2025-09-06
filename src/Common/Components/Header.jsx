@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoPerson } from "react-icons/io5";
+import { useCart } from '../Context/CartContext';
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
+
+  const { cartItems } = useCart();
+
 
   return (
     <nav className="bg-green-800 text-white shadow-md py-3.5">
@@ -21,7 +25,7 @@ function Header() {
         {/* Desktop Nav Links */}
         <div className="hidden md:flex items-center space-x-6 me-15">
           <Link to="/" className="hover:text-yellow-300">Home</Link>
-          <Link to="/shop" className="hover:text-yellow-300">Shop</Link>
+          <Link to="/products" className="hover:text-yellow-300">Shop</Link>
           <Link to="/offers" className="hover:text-yellow-300">Offers</Link>
           <Link to="/contact" className="hover:text-yellow-300">Contact</Link>
           
@@ -35,9 +39,12 @@ function Header() {
           >
             {isOpen ? "✖" : "☰"}
           </button>
-          <button className="bg-yellow-300 text-green-900 px-3 py-1 rounded hover:bg-yellow-400 font-semibold">
-            Cart (2)
-          </button>
+          <Link
+          to="/cart"
+          className="bg-yellow-400 text-black px-4 py-2 rounded font-semibold"
+        >
+          Cart ({cartItems.length})
+        </Link>
           <Link to={'/login'}><button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex">
             Login <IoPerson className='mt-1 gap-1.5'/>
           </button></Link>
