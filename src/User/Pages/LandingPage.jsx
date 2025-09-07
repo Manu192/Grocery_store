@@ -23,6 +23,9 @@ function LandingPage() {
 
   return (
     <>
+// <<<<<<< Alkesh
+      <Header/>
+// =======
       <Header />
 
        {/* Categories */}
@@ -103,6 +106,7 @@ function LandingPage() {
 
       
 
+// >>>>>>> master
       <Footer />
     </>
   );

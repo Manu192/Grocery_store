@@ -1,0 +1,16 @@
+.sidebar-link {
+  color: var(--bs-secondary-color); 
+  text-decoration: none;            
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;          
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+}
+
+.sidebar-link:hover {
+  background-color: var(--bs-light); 
+  color: var(--bs-body-color);       
+}
+.fw-extrabold {
+  font-weight: 900; 
+}
