@@ -5,9 +5,8 @@ import Footer from '../../Common/Components/Footer'
 function LandingPage() {
   return (
     <>
-    <Header/>
-
-      <Footer/>
+      <Header/>
+      <Footer />
     </>
   )
 }
