@@ -1,74 +1,50 @@
-import React from 'react'
-import { Button, Card, CardBody, CardHeader, CardTitle } from 'react-bootstrap'
-import Table from 'react-bootstrap/Table';
+import React from 'react';
 
 function Orders() {
   return (
-    <>
-      <div className='d-flex w-100 justify-content-center px-2'>
-        <Card className='w-100 text-center'>
-          <CardHeader>
-            <CardTitle>Order History</CardTitle>
-          </CardHeader>
-          <CardBody className="d-flex justify-content-center">
-            <Table responsive striped bordered hover className="text-center mb-0">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Order Name</th>
-                  <th>Order ID</th>
-                  <th>Order Status</th>
-                  <th colSpan={2}>Order Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Coconut</td>
-                  <td>123</td>
-                  <td>Pending</td>
-                  <td>20₹</td>
-                  <td>
-                    <Button size="sm" variant="success">Order details</Button>
+    <div className="w-full px-4 py-6 flex justify-center">
+      <div className="w-full max-w-5xl bg-white rounded-xl shadow-md p-6 text-center">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Order History</h2>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-full border border-gray-300 text-sm text-center">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-2 border">ID</th>
+                <th className="px-4 py-2 border">Order Name</th>
+                <th className="px-4 py-2 border">Order ID</th>
+                <th className="px-4 py-2 border">Order Status</th>
+                <th className="px-4 py-2 border" colSpan={2}>Order Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { id: 1, name: 'Coconut', status: 'Pending' },
+                { id: 2, name: 'Chicken', status: 'Completed' },
+                { id: 3, name: 'Carrot', status: 'Pending' },
+                { id: 4, name: 'Beef', status: 'Completed' },
+              ].map((order, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="px-4 py-2 border">{order.id}</td>
+                  <td className="px-4 py-2 border">{order.name}</td>
+                  <td className="px-4 py-2 border">123</td>
+                  <td className={`px-4 py-2 border font-medium ${order.status === 'Completed' ? 'text-green-600' : 'text-yellow-600'}`}>
+                    {order.status}
+                  </td>
+                  <td className="px-4 py-2 border">20₹</td>
+                  <td className="px-4 py-2 border">
+                    <button className="bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700 transition">
+                      Order details
+                    </button>
                   </td>
                 </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Chicken</td>
-                  <td>123</td>
-                  <td>Completed</td>
-                  <td>20₹</td>
-                  <td>
-                    <Button size="sm" variant="success">Order details</Button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Carrot</td>
-                  <td>123</td>
-                  <td>Pending</td>
-                  <td>20₹</td>
-                  <td>
-                    <Button size="sm" variant="success">Order details</Button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Beef</td>
-                  <td>123</td>
-                  <td>Completed</td>
-                  <td>20₹</td>
-                  <td>
-                    <Button size="sm" variant="success">Order details</Button>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </CardBody>
-        </Card>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
-export default Orders
+export default Orders;

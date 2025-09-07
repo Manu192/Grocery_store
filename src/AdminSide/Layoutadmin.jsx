@@ -1,20 +1,28 @@
-import React from 'react'
-import Sidebar from './Sidebar'
-import AdminHeader from './AdminHeader'
-import { Outlet } from 'react-router-dom'
+import React from 'react';
+import Sidebar from './Sidebar';
+import AdminHeader from './AdminHeader';
+import { Outlet } from 'react-router-dom';
 
 function Layoutadmin() {
   return (
-    <div className='d-flex min-vh-100 w-100'>
-        <Sidebar/>
-        <div className='d-flex flex-column flex-fill'>
-            <AdminHeader/>
-        <main className='d-flex flex-fill p-4 p-md-5 bg-light'>
-            <Outlet/>
+    <div className="flex min-h-screen w-full bg-gradient-to-br from-green-50 via-white to-lime-100">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content Area */}
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Header */}
+        <AdminHeader />
+
+        {/* Page Content */}
+        <main className="flex-1 p-4 md:p-6 overflow-y-auto bg-gray-100 rounded-tl-3xl shadow-inner">
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
-        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Layoutadmin
+export default Layoutadmin;

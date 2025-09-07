@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IoPerson } from "react-icons/io5";
-import { useCart } from '../Context/CartContext';
+import { useSelector } from 'react-redux';
+
 function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const { cartItems } = useCart();
-
+  const [isOpen, setIsOpen] = useState(false);
+  const cartItems = useSelector((state) => state.cart.items);
 
   return (
     <nav className="bg-green-800 text-white shadow-md py-3.5">
@@ -28,10 +27,9 @@ function Header() {
           <Link to="/products" className="hover:text-yellow-300">Shop</Link>
           <Link to="/offers" className="hover:text-yellow-300">Offers</Link>
           <Link to="/contact" className="hover:text-yellow-300">Contact</Link>
-          
         </div>
 
-        {/* Mobile Menu Toggle + Cart */}
+        {/* Mobile Menu Toggle + Cart + Login */}
         <div className="flex items-center space-x-3">
           <button 
             className="md:hidden text-yellow-300 focus:outline-none" 
@@ -39,15 +37,19 @@ function Header() {
           >
             {isOpen ? "✖" : "☰"}
           </button>
+
           <Link
-          to="/cart"
-          className="bg-yellow-400 text-black px-4 py-2 rounded font-semibold"
-        >
-          Cart ({cartItems.length})
-        </Link>
-          <Link to={'/login'}><button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex">
-            Login <IoPerson className='mt-1 gap-1.5'/>
-          </button></Link>
+            to="/cart"
+            className="bg-yellow-400 text-black px-4 py-2 rounded font-semibold"
+          >
+            Cart ({cartItems.length})
+          </Link>
+
+          <Link to="/login">
+            <button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex items-center gap-1">
+              Login <IoPerson className="mt-1" />
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -59,9 +61,9 @@ function Header() {
           className="w-full max-w-md px-4 py-2 bg-white text-green-700 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500"
         />
         <button 
-          className="bg-yellow-300 text-green-900 px-4 py-2 rounded-r-md hover:bg-yellow-400 transition duration-500 ease-in-out "
+          className="bg-yellow-300 text-green-900 px-4 py-2 rounded-r-md hover:bg-yellow-400 transition duration-500 ease-in-out"
         >
-          Search 
+          Search
         </button>
       </div>
 
@@ -69,7 +71,7 @@ function Header() {
       {isOpen && (
         <div className="md:hidden bg-green-700 px-4 pb-4 space-y-3">
           <Link to="/" className="block hover:text-yellow-300">Home</Link>
-          <Link to="/shop" className="block hover:text-yellow-300">Shop</Link>
+          <Link to="/products" className="block hover:text-yellow-300">Shop</Link>
           <Link to="/offers" className="block hover:text-yellow-300">Offers</Link>
           <Link to="/contact" className="block hover:text-yellow-300">Contact</Link>
           <Link to="/login" className="block hover:text-yellow-300">Login</Link>
@@ -77,7 +79,7 @@ function Header() {
         </div>
       )}
     </nav>
-  )
+  );
 }
 
-export default Header
+export default Header;
