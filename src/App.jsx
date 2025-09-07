@@ -8,11 +8,11 @@ import Auth from './Common/Pages/Auth'
 import Preloader from './Common/Components/Preloader'
 import { useEffect, useState } from 'react'
 import Cart from './User/Pages/Cart'
-import CategoryPage from './User/Pages/categoryPage'
 import ProductListingPage from './User/Pages/ProductListingPage'
-
+import CategoryPage from './User/Pages/CategoryPage'
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 5000);
@@ -22,6 +22,9 @@ function App() {
 
   return (
     <>
+     {/* Header shows on all pages */}
+      <Header cartItems={cartItems} />
+
       <Routes>
         {/* {common components} */}
         <Route path='/' element={isLoading ? <Preloader /> : <LandingPage />} />
@@ -33,6 +36,8 @@ function App() {
          <Route path="/products" element={<ProductListingPage />} />
 
       </Routes>
+       {/* Footer shows on all pages */}
+      <Footer />
     </>
   )
 }

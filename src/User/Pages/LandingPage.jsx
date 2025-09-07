@@ -1,68 +1,78 @@
-import React from "react";
-import Header from "../../Common/Components/Header";
-import Footer from "../../Common/Components/Footer";
+import React, { useState } from "react";
 import { useCart } from "../../Common/Context/CartContext";
 import { Link } from "react-router-dom";
+import products from "../../data/products";
+import categories from "../../data/categories";
+import ProductDetailsModal from "../../Common/Components/ProductDetailsModal";
 
 function LandingPage() {
   const { addToCart } = useCart();
 
-  const products = [
-    { id: 1, name: "Fresh Apples", price: 120, img: "https://5.imimg.com/data5/AK/RA/MY-68428614/apple-500x500.jpg" },
-    { id: 2, name: "Organic Milk", price: 60, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbaRiki8m18uLKyubnv2zExOU9l9EMXoYo4aOPDumNgFANF8NoOasQ-US0NJVVzP2yWII&usqp=CAU" },
-    { id: 3, name: "Basmati Rice", price: 800, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStSzAmGRP-SR_9wK88yMgwCouappQEPjkzNrxK_ybB1CPv49cp0OQ4sfhiSV0CtKMTiuI&usqp=CAU" },
-    { id: 4, name: "Potato Chips", price: 40, img: "https://images-cdn.ubuy.co.in/63512d75d9569241954a7fe9-lay-39-s-classic-potato-chips.jpg" },
-  ];
-
-  const categories = [
-  { id: 1, name: "Fruits", image: "https://www.diagnosisdiet.com/assets/images/7/fruit-og-jcnp4h14m2mh5t9.jpg", path: "/category/fruits" },
-  { id: 2, name: "Vegetables", image: "https://www.lalpathlabs.com/blog/wp-content/uploads/2019/01/Fruits-and-Vegetables.jpg", path: "/category/vegetables" },
-  { id: 3, name: "Snacks", image: "https://www.shutterstock.com/image-photo/colorful-mix-salty-snacks-beer-260nw-2593468017.jpg", path: "/category/snacks" },
-  { id: 4, name: "Dairy", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1I3o2E2WOQt-Y4TW8z_FM2ZP7O865nE3c0OkkKewmXGsDjmJtvskFumUXmxBapFsn5OU&usqp=CAU", path: "/category/dairy" },
-];
+  const featured = products.slice(0, 4);
+  
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <>
-      <Header />
+
+      <div className="p-6">
 
        {/* Categories */}
-      <h2 className="text-2xl font-bold mb-6">Shop by Category</h2>
+      <h2 className="text-2xl font-bold mt-10 mb-6">Shop by Category</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {categories.map((cat) => (
+        {categories.map((c) => (
           <Link
-            to={cat.path}
-            key={cat.id}
-            className="block text-center border rounded-lg shadow hover:shadow-lg transition"
+            key={c.id}
+            to={`/category/${c.name.toLowerCase()}`}
+            className="border rounded-lg p-6 text-center shadow hover:shadow-lg"
           >
             <img
-              src={cat.image}
-              alt={cat.name}
-              className="w-full h-32 object-cover rounded-t-lg"
+              src={c.image}
+              alt={c.name}
+              className="w-100 h-40"
             />
-            <h3 className="p-2 font-semibold">{cat.name}</h3>
+            <h3 className="mt-3 font-semibold text-lg">{c.name}</h3>
           </Link>
         ))}
       </div>
 
       {/* Featured Products */}
-      <section className="py-12">
-        <h2 className="text-2xl font-bold text-center mb-8">⭐ Featured Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
-          {products.map((product) => (
-            <div key={product.id} className="bg-white shadow-lg rounded-lg p-4 text-center">
-              <img src={product.img} alt={product.name} className="mx-auto mb-4" />
-              <h3 className="font-semibold">{product.name}</h3>
-              <p className="text-gray-600">₹{product.price}</p>
-              <button
-                onClick={() => addToCart(product)}
-                className="mt-3 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-              >
-                Add to Cart
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+      <h2 className="text-2xl font-bold py-6 mb-6">🌟 Featured Products</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {featured.map((p) => (
+          <div
+            key={p.id}
+            className="border rounded-lg p-4 text-center shadow cursor-pointer hover:shadow-lg"
+            onClick={() => setSelectedProduct(p)} // open modal
+          >
+            <img
+              src={p.image}
+              alt={p.name}
+              className="w-40 h-32 object-cover mx-auto"
+            />
+            <h3 className="mt-2 font-semibold">{p.name}</h3>
+            <p className="text-gray-600">₹{p.price}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Product Details Modal */}
+      {selectedProduct && (
+        <ProductDetailsModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
+      
+
+       <div className="mt-6 text-center">
+        <Link
+          to="/products"
+          className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+        >
+          View All Products →
+        </Link>
+      </div>
 
       {/* Banner Section */}
       <section className="relative bg-green-800 text-white text-center py-20">
@@ -101,9 +111,7 @@ function LandingPage() {
         </div>
       </section>
 
-      
-
-      <Footer />
+      </div>
     </>
   );
 }

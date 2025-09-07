@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoPerson } from "react-icons/io5";
 import { useCart } from '../Context/CartContext';
+import { FaShoppingCart } from "react-icons/fa";
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -39,12 +40,15 @@ function Header() {
           >
             {isOpen ? "✖" : "☰"}
           </button>
-          <Link
-          to="/cart"
-          className="bg-yellow-400 text-black px-4 py-2 rounded font-semibold"
-        >
-          Cart ({cartItems.length})
-        </Link>
+         <Link to={'/cart'}> <div className="relative">
+        <FaShoppingCart className="text-2xl" />
+        {/* Cart Badge */}
+        {cartItems?.length > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+            {cartItems.length}
+          </span>
+        )}
+      </div></Link>
           <Link to={'/login'}><button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex">
             Login <IoPerson className='mt-1 gap-1.5'/>
           </button></Link>

@@ -1,44 +1,63 @@
 import React from "react";
 import { useCart } from "../../Common/Context/CartContext";
-import Header from "../../Common/Components/Header";
-import Footer from "../../Common/Components/Footer";
 
-function Cart() {
-  const { cartItems, removeFromCart } = useCart();
+function CartPage() {
+  const { cart, removeFromCart } = useCart();
+
+  // ✅ Calculate total
+  const total = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
   return (
-    <>
-      <Header />
-      <section className="py-12 max-w-4xl mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-6">🛒 Your Cart</h2>
+    <div className="p-6">
+      <h2 className="text-3xl font-bold mb-6">🛒 Your Shopping Cart</h2>
 
-        {cartItems.length === 0 ? (
-          <p className="text-gray-600">Your cart is empty.</p>
-        ) : (
-          <div className="space-y-4">
-            {cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex justify-between items-center bg-white shadow p-4 rounded-lg"
-              >
-                <div>
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-gray-600">₹{item.price}</p>
-                </div>
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Remove
-                </button>
+      {cart.length === 0 ? (
+        <p className="text-gray-500">Your cart is empty.</p>
+      ) : (
+        <div className="space-y-4">
+          {/* Cart Items */}
+          {cart.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center border rounded-lg shadow p-4"
+            >
+              {/* Product Image */}
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-20 h-20 object-cover rounded mr-4"
+              />
+
+              {/* Product Info */}
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg">{item.name}</h3>
+                <p className="text-gray-600">₹{item.price}</p>
+                <p className="text-sm text-gray-500">
+                  Quantity: {item.quantity || 1}
+                </p>
               </div>
-            ))}
+
+              {/* Remove Button */}
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+
+          {/* Total Section */}
+          <div className="border-t pt-4 mt-6 flex justify-between items-center">
+            <h3 className="text-xl font-bold">Total: ₹{total}</h3>
+            <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
+              Proceed to Checkout
+            </button>
           </div>
-        )}
-      </section>
-      <Footer />
-    </>
+        </div>
+      )}
+    </div>
   );
 }
 
-export default Cart;
+export default CartPage;
