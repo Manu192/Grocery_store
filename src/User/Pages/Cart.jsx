@@ -2,11 +2,77 @@ import React from "react";
 import Header from "../../Common/Components/Header";
 import Footer from "../../Common/Components/Footer";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../../Redux/Slice/cartSlice";
+import { removeFromCart, clearCart } from "../../Redux/Slice/cartSlice";
+import Swal from "sweetalert2"; // ✅ Import SweetAlert2
 
 function Cart() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+
+  const handleCheckout = async () => {
+    console.log("Checkout Items:", cartItems);
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      Swal.fire({
+        icon: "warning",
+        title: "Please login first!",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      Swal.fire({
+        icon: "info",
+        title: "Your cart is empty!",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    try {
+      const updatedOrders = [...(user.orders || []), ...cartItems];
+
+      const res = await fetch(`http://localhost:4000/users/${user.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orders: updatedOrders }),
+      });
+
+      if (res.ok) {
+        const updatedUser = { ...user, orders: updatedOrders };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        dispatch(clearCart());
+        // ✅ Add to global orders[] in db.json
+        for (const order of cartItems) {
+          await fetch("http://localhost:4000/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...order, userId: user.id }), // attach userId
+          });
+        }
+
+        // ✅ SweetAlert Success Popup
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Order placed successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        throw new Error("Failed to save order");
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong!",
+        text: "Please try again later.",
+      });
+    }
+  };
 
   return (
     <>
@@ -23,10 +89,16 @@ function Cart() {
                 key={item.id}
                 className="flex justify-between items-center bg-white shadow p-4 rounded-lg"
               >
-                <div>
-                  <img src={item?.img} alt={item?.name} />
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-gray-600">₹{item.price}</p>
+                <div className="flex items-center gap-4">
+                  <img
+                    src={item?.img}
+                    alt={item?.name}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                  <div>
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <p className="text-gray-600">₹{item.price}</p>
+                  </div>
                 </div>
                 <button
                   onClick={() => dispatch(removeFromCart(item.id))}
@@ -36,6 +108,14 @@ function Cart() {
                 </button>
               </div>
             ))}
+
+            {/* Checkout Button */}
+            <button
+              onClick={handleCheckout}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105"
+            >
+              Check out
+            </button>
           </div>
         )}
       </section>

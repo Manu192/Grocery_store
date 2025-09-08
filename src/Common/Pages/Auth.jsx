@@ -23,12 +23,19 @@ function Auth({ register }) {
     }
 
     const endpoint = register ? 'register' : 'login';
-    const payload = register
-      ? { email, password, username, role }
-      : { email, password }; // ✅ no role during login
-      
-      console.log('Payload:', payload);
 
+    // ✅ Add orders: [] only if registering as a user
+    const payload = register
+      ? {
+          email,
+          password,
+          username,
+          role,
+          ...(role === "user" && { orders: [] }) // 👈 here
+        }
+      : { email, password }; // no role/orders on login
+
+    console.log('Payload:', payload);
 
     try {
       const res = await fetch(`http://localhost:4000/${endpoint}`, {
