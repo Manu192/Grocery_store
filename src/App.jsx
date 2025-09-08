@@ -18,6 +18,7 @@ import Dashboard from './AdminSide/pages/Dashboard';
 import Products from './AdminSide/pages/Products';
 import Orders from './AdminSide/pages/Orders';
 import Features from './AdminSide/pages/Features';
+import Purchasehistory from './User/Pages/Purchasehistory';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +38,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/category/:categoryName" element={<CategoryPage />} />
         <Route path="/products" element={<ProductListingPage />} />
+        <Route path="/purchasehistory" element={<Purchasehistory />} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={<Layoutadmin />}>

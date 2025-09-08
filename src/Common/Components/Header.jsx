@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoPerson } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
+  const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <nav className="bg-green-800 text-white shadow-md py-3.5">
@@ -29,7 +37,7 @@ function Header() {
           <Link to="/contact" className="hover:text-yellow-300">Contact</Link>
         </div>
 
-        {/* Mobile Menu Toggle + Cart + Login */}
+        {/* Mobile Menu Toggle + Cart + Auth */}
         <div className="flex items-center space-x-3">
           <button 
             className="md:hidden text-yellow-300 focus:outline-none" 
@@ -45,15 +53,24 @@ function Header() {
             Cart ({cartItems.length})
           </Link>
 
-          <Link to="/login">
-            <button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex items-center gap-1">
-              Login <IoPerson className="mt-1" />
+          {user ? (
+            <button 
+              onClick={handleLogout}
+              className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex items-center gap-1"
+            >
+              Logout <IoPerson className="mt-1" />
             </button>
-          </Link>
+          ) : (
+            <Link to="/login">
+              <button className="bg-white text-green-900 px-3 py-1 rounded hover:bg-yellow-300 font-semibold flex items-center gap-1">
+                Login <IoPerson className="mt-1" />
+              </button>
+            </Link>
+          )}
         </div>
       </div>
 
-      {/* Search Bar (Desktop Only) */}
+      {/* Search Bar */}
       <div className="hidden md:flex justify-center mx-6 mt-2">
         <input
           type="text"
@@ -74,8 +91,19 @@ function Header() {
           <Link to="/products" className="block hover:text-yellow-300">Shop</Link>
           <Link to="/offers" className="block hover:text-yellow-300">Offers</Link>
           <Link to="/contact" className="block hover:text-yellow-300">Contact</Link>
-          <Link to="/login" className="block hover:text-yellow-300">Login</Link>
-          <Link to="/register" className="block hover:text-yellow-300">Register</Link>
+          {user ? (
+            <button 
+              onClick={handleLogout}
+              className="block text-left w-full hover:text-yellow-300"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="block hover:text-yellow-300">Login</Link>
+              <Link to="/register" className="block hover:text-yellow-300">Register</Link>
+            </>
+          )}
         </div>
       )}
     </nav>

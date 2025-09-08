@@ -4,6 +4,7 @@ import Footer from "../../Common/Components/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, clearCart } from "../../Redux/Slice/cartSlice";
 import Swal from "sweetalert2"; // ✅ Import SweetAlert2
+import { Link } from "react-router-dom";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -78,47 +79,56 @@ function Cart() {
     <>
       <Header />
       <section className="py-12 max-w-4xl mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-6">🛒 Your Cart</h2>
+  <h2 className="text-2xl font-bold mb-6">🛒 Your Cart</h2>
 
-        {cartItems.length === 0 ? (
-          <p className="text-gray-600">Your cart is empty.</p>
-        ) : (
-          <div className="space-y-4">
-            {cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex justify-between items-center bg-white shadow p-4 rounded-lg"
-              >
-                <div className="flex items-center gap-4">
-                  <img
-                    src={item?.img}
-                    alt={item?.name}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                  <div>
-                    <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-gray-600">₹{item.price}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => dispatch(removeFromCart(item.id))}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-
-            {/* Checkout Button */}
-            <button
-              onClick={handleCheckout}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105"
-            >
-              Check out
-            </button>
+  {cartItems.length === 0 ? (
+    <p className="text-gray-600 mb-6">Your cart is empty.</p>
+  ) : (
+    <div className="space-y-4 mb-6">
+      {cartItems.map((item) => (
+        <div
+          key={item.id}
+          className="flex justify-between items-center bg-white shadow p-4 rounded-lg"
+        >
+          <div className="flex items-center gap-4">
+            <img
+              src={item?.img || item?.image || "https://via.placeholder.com/150"}
+              alt={item?.name}
+              className="w-16 h-16 object-cover rounded"
+            />
+            <div>
+              <h3 className="font-semibold">{item.name}</h3>
+              <p className="text-gray-600">₹{item.price}</p>
+            </div>
           </div>
-        )}
-      </section>
+          <button
+            onClick={() => dispatch(removeFromCart(item.id))}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+
+      {/* Checkout Button */}
+      <button
+        onClick={handleCheckout}
+        className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105"
+      >
+        Check out
+      </button>
+    </div>
+  )}
+
+  {/* Purchase History Button */}
+  <div className="flex justify-center mt-6">
+    <Link to={"/purchasehistory"}><button className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+      Purchase History
+    </button></Link>
+    
+  </div>
+</section>
+
       <Footer />
     </>
   );
