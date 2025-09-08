@@ -16,6 +16,9 @@ export const getproducts =async()=>{
     return await commonapi(`DELETE`,`${serverURL}/products/${id}`)
  }
 
- export const updateproducts = async (id, reqbody) => {
-  return await axios.put(`${BASE_URL}/products/${id}`, reqbody);
-};
+ 
+
+export const updateproducts = async(id,reqbody)=>{
+    return await commonapi(`PUT`,`${serverURL}/products/${id}`,reqbody)
+ }
+
